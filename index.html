@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso a Informes</title>
+    <title>Acceso a Informes de Operadores</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,13 +12,59 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Estilo para el logo de fondo (marca de agua) */
+        body::before {
+            content: "";
+            background-image: url('logo.svg'); /* Ruta de tu logo */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 75%; /* Tamaño del logo */
+            opacity: 0.2; /* Transparencia del logo */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Coloca el logo detrás del contenido */
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            z-index: 1; /* Asegura que el contenido esté sobre el logo */
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
         .hidden {
             display: none;
@@ -26,63 +72,82 @@
         ul {
             list-style-type: none;
             padding: 0;
+            margin-top: 20px;
         }
         li {
             margin: 10px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        #errorMessage {
+            color: red;
+            display: none;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- Sección de ingreso de PIN -->
     <div id="pinSection">
-        <h2>Ingrese el PIN</h2>
-        <input type="password" id="pinInput" placeholder="PIN">
+        <h2>Acceso a Informes</h2>
+        <input type="password" id="pinInput" placeholder="Ingrese su PIN">
         <button onclick="checkPin()">Acceder</button>
-        <p id="errorMessage" style="color: red; display: none;">PIN incorrecto</p>
+        <p id="errorMessage">PIN incorrecto. Inténtelo de nuevo.</p>
     </div>
 
-    <div id="directorySection" class="hidden">
-        <h2>Archivos HTML en la carpeta "informes"</h2>
-        <ul id="directoryList"></ul>
+    <!-- Sección de listado de informes -->
+    <div id="informesSection" class="hidden">
+        <h2>Informes Disponibles</h2>
+        <ul id="informesList"></ul>
     </div>
 </div>
 
 <script>
+    // Función para verificar el PIN
     function checkPin() {
         const pin = document.getElementById('pinInput').value;
-        if (pin === '1234') {
+        if (pin === '1234') { // PIN de ejemplo
             document.getElementById('pinSection').style.display = 'none';
-            document.getElementById('directorySection').classList.remove('hidden');
-            loadDirectories();
+            document.getElementById('informesSection').classList.remove('hidden');
+            loadInformes();
         } else {
             document.getElementById('errorMessage').style.display = 'block';
         }
     }
 
-    async function loadDirectories() {
+    // Función para cargar la lista de informes
+    async function loadInformes() {
         try {
-            // Cargar el archivo JSON con la lista de directorios
-            const response = await fetch('directorios.json');
+            // Simulación de carga de informes desde un archivo JSON
+            const response = await fetch('informes.json');
             if (!response.ok) {
-                throw new Error('No se pudo cargar la lista de directorios');
+                throw new Error('No se pudo cargar la lista de informes');
             }
 
-            const directories = await response.json();
-            const directoryList = document.getElementById('directoryList');
+            const informes = await response.json();
+            const informesList = document.getElementById('informesList');
 
-            directories.forEach(dir => {
+            // Mostrar los informes en la lista
+            informes.forEach(informe => {
                 const li = document.createElement('li');
                 const link = document.createElement('a');
-                link.href = `informes/${dir}`; // Enlace al archivo HTML
-                link.textContent = dir;
+                link.href = `informes/${informe}`; // Enlace al archivo del informe
+                link.textContent = informe.replace('.html', ''); // Mostrar nombre sin extensión
                 link.target = "_blank"; // Abrir en una nueva pestaña
                 li.appendChild(link);
-                directoryList.appendChild(li);
+                informesList.appendChild(li);
             });
         } catch (error) {
             console.error('Error:', error);
-            alert('Hubo un error al cargar los directorios');
+            alert('Hubo un error al cargar los informes');
         }
     }
 </script>
