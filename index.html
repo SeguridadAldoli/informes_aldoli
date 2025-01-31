@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso a Informes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="pinSection">
+        <h2>Ingrese el PIN</h2>
+        <input type="password" id="pinInput" placeholder="PIN">
+        <button onclick="checkPin()">Acceder</button>
+        <p id="errorMessage" style="color: red; display: none;">PIN incorrecto</p>
+    </div>
+
+    <div id="directorySection" class="hidden">
+        <h2>Archivos HTML en la carpeta "informes"</h2>
+        <ul id="directoryList"></ul>
+    </div>
+</div>
+
+<script>
+    function checkPin() {
+        const pin = document.getElementById('pinInput').value;
+        if (pin === '1234') {
+            document.getElementById('pinSection').style.display = 'none';
+            document.getElementById('directorySection').classList.remove('hidden');
+            loadDirectories();
+        } else {
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+    }
+
+    async function loadDirectories() {
+        try {
+            // Cargar el archivo JSON con la lista de directorios
+            const response = await fetch('directorios.json');
+            if (!response.ok) {
+                throw new Error('No se pudo cargar la lista de directorios');
+            }
+
+            const directories = await response.json();
+            const directoryList = document.getElementById('directoryList');
+
+            directories.forEach(dir => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `informes/${dir}`; // Enlace al archivo HTML
+                link.textContent = dir;
+                link.target = "_blank"; // Abrir en una nueva pestaña
+                li.appendChild(link);
+                directoryList.appendChild(li);
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Hubo un error al cargar los directorios');
+        }
+    }
+</script>
+
+</body>
+</html>
