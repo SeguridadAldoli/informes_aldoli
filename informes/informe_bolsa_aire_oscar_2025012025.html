@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificación de Mantenimiento - Bolsa de Aire</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Cambiado a flex-start para permitir scroll */
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 8px solid #ff0000; /* Rojo */
+            margin: 20px 0; /* Margen para evitar que el contenido toque los bordes */
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff0000; /* Rojo */
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .content {
+            line-height: 1.8;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 400px;
+        }
+        .decorative-element {
+            margin: 20px 0;
+            height: 2px;
+            background: #ff0000; /* Rojo */
+        }
+        .pin-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .pin-section input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .pin-section button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #ff0000; /* Rojo */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .pin-section button:hover {
+            background-color: #cc0000; /* Rojo oscuro */
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sección de validación de PIN -->
+        <div class="pin-section">
+            <h2>Ingrese el PIN para acceder a la notificación</h2>
+            <input type="password" id="pinInput" placeholder="PIN">
+            <button onclick="checkPin()">Acceder</button>
+            <p id="errorMessage" class="error-message">PIN incorrecto. Inténtelo de nuevo.</p>
+        </div>
+
+        <!-- Contenido de la notificación (oculto inicialmente) -->
+        <div id="notificacionContent" class="hidden">
+            <div class="header">
+                <img src="../logo.svg" alt="" class="logo">
+                <h1>Notificación de Mantenimiento</h1>
+            </div>
+            <div class="content">
+                <p><strong>Fecha:</strong> 31/01/2025</p>
+                <p><strong>Asunto:</strong> Mantenimiento de la bolsa de aire</p>
+
+                <p>Estimado equipo:</p>
+
+                <p>Por medio del presente, les informamos que se ha programado el mantenimiento de la bolsa de aire de la unidad asignada. Este mantenimiento es necesario para garantizar el correcto funcionamiento del sistema de seguridad y la operación segura del vehículo.</p>
+
+                <div class="decorative-element"></div>
+
+                <p><strong>Acciones requeridas:</strong></p>
+                <ul>
+                    <li>Presentar la unidad en el taller lo antes posible.</li>
+                    <li>Coordinar con mantenimiento para agendar el servicio.</li>
+                </ul>
+
+                <p>Agradecemos su atención y colaboración para mantener nuestras unidades en óptimas condiciones.</p>
+            </div>
+            <div class="footer">
+                <p>Transportes Aldoli S.A. de C.V.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkPin() {
+            const pin = document.getElementById('pinInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const notificacionContent = document.getElementById('notificacionContent');
+
+            if (pin === '1234') {
+                // PIN correcto: mostrar el contenido de la notificación
+                errorMessage.style.display = 'none';
+                notificacionContent.classList.remove('hidden');
+            } else {
+                // PIN incorrecto: mostrar mensaje de error
+                errorMessage.style.display = 'block';
+                notificacionContent.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
