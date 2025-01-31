@@ -11,19 +11,20 @@
             padding: 20px;
             background-color: #f9f9f9;
             color: #333;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start; /* Cambiado a flex-start para permitir scroll */
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
             background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-left: 8px solid #ff0000; /* Naranja */
+            margin: 20px 0; /* Margen para evitar que el contenido toque los bordes */
         }
         .header {
             text-align: center;
