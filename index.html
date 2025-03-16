@@ -3,154 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso a Informes de Operadores</title>
+    <title>Reglamento | Transportes Aldoli S.A. de C.V.</title>
     <style>
+        :root {
+            --rojo-primario: #ff0000;
+            --rojo-secundario: #d90a0a;
+            --gris-oscuro: #2a2a2a;
+            --gris-medio: #616161;
+            --gris-claro: #f5f5f5;
+            --sombra-suave: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Base Styles */
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-            position: relative;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #ffffff;
+            color: var(--gris-oscuro);
+            max-width: 1200px;
+        }
+
+        h1, h2, h3 {
+            margin: 1.5em 0 0.5em;
+            font-weight: 600;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            padding: 1.5rem;
+            border-bottom: 3px solid var(--rojo-primario);
+            color: var(--rojo-primario);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            padding-left: 15px;
+            color: var(--rojo-primario);
+            transition: transform 0.3s ease;
+        }
+
+        h2:hover {
+            transform: translateX(10px);
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--gris-medio);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            box-shadow: var(--sombra-suave);
+            border-radius: 8px;
             overflow: hidden;
         }
-        /* Estilo para el logo de fondo (marca de agua) */
-        body::before {
-            content: "";
-            background-image: url('logo.svg'); /* Ruta de tu logo */
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 75%; /* Tamaño del logo */
-            opacity: 0.2; /* Transparencia del logo */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Coloca el logo detrás del contenido */
+
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
         }
-        .container {
-            background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-            position: relative;
-            z-index: 1; /* Asegura que el contenido esté sobre el logo */
+
+        th {
+            background-color: var(--rojo-primario);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
+
+        td {
+            border-bottom: 1px solid #eeeeee;
+            background-color: white;
         }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+
+        tr:nth-child(even) td {
+            background-color: var(--gris-claro);
         }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
+
+        tr:hover td {
+            background-color: #ffebee;
+            transition: background 0.2s ease;
         }
-        button:hover {
-            background-color: #0056b3;
+
+        ul, ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
         }
-        .hidden {
-            display: none;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 20px;
-        }
+
         li {
-            margin: 10px 0;
+            margin: 0.8rem 0;
+            padding-left: 1rem;
+            position: relative;
         }
-        a {
-            text-decoration: none;
-            color: #007bff;
-            font-size: 16px;
+
+        .introduccion-empresarial {
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            box-shadow: var(--sombra-suave);
         }
-        a:hover {
-            text-decoration: underline;
+
+        .firma-container {
+            margin: 4rem auto;
+            max-width: 800px;
+            padding: 2.5rem;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: var(--sombra-suave);
         }
-        #errorMessage {
-            color: red;
-            display: none;
-            margin-top: 10px;
+
+        .firma-canvas {
+            position: relative;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            touch-action: none;
+        }
+
+        #firmaCanvas {
+            width: 100%;
+            height: 150px;
+            background: #fafafa;
+            cursor: crosshair;
+        }
+
+        .firma-limpiar {
+            margin-top: 1rem;
+            background: var(--rojo-primario);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .firma-limpiar:hover {
+            background: var(--rojo-secundario);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .firma-container {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <img src="./vista/img/logo_header.svg" alt="Logo Transportes Aldoli" height="50">
+    </header>
 
-<div class="container">
-    <!-- Sección de ingreso de PIN -->
-    <div id="pinSection">
-        <h2>Acceso a Informes</h2>
-        <input type="password" id="pinInput" placeholder="Ingrese su PIN">
-        <button onclick="checkPin()">Acceder</button>
-        <p id="errorMessage">PIN incorrecto. Inténtelo de nuevo.</p>
-    </div>
+    <main>
+        <h1>Reglamento</h1>
 
-    <!-- Sección de listado de informes -->
-    <div id="informesSection" class="hidden">
-        <h2>Informes Disponibles</h2>
-        <ul id="informesList"></ul>
-    </div>
-</div>
+        <section class="introduccion-empresarial">
+            <h2>Transportes Aldoli S.A. de C.V.</h2>
+            <p><strong>Transportes Aldoli S.A. de C.V.</strong> tiene como objetivo liderar el sector de transporte, garantizando seguridad, eficiencia y cumplimiento en todas nuestras operaciones.</p>
+            <p>Este reglamento establece las normas y sanciones aplicables a los operadores de trailer para mantener los más altos estándares de calidad y seguridad.</p>
+            <div class="introduccion-destacado">
+                <p>Nuestro compromiso:</p>
+                <ul>
+                    <li>Seguridad en cada kilómetro recorrido</li>
+                    <li>Eficiencia en la entrega de cargas</li>
+                    <li>Respeto por las normativas</li>
+                    <li>Excelencia en el servicio al cliente</li>
+                </ul>
+            </div>
+        </section>
 
-<script>
-    // Función para verificar el PIN
-    function checkPin() {
-        const pin = document.getElementById('pinInput').value;
-        if (pin === '1234') { // PIN de ejemplo
-            document.getElementById('pinSection').style.display = 'none';
-            document.getElementById('informesSection').classList.remove('hidden');
-            loadInformes();
-        } else {
-            document.getElementById('errorMessage').style.display = 'block';
-        }
-    }
+        <h2>1. Objetivo</h2>
+        <p>Establecer las normas y sanciones aplicables a los operadores de trailer para garantizar la seguridad, eficiencia y cumplimiento de las operaciones de transporte.</p>
 
-    // Función para cargar la lista de informes
-    async function loadInformes() {
-        try {
-            // Simulación de carga de informes desde un archivo JSON
-            const response = await fetch('informes.json');
-            if (!response.ok) {
-                throw new Error('No se pudo cargar la lista de informes');
+        <hr>
+
+        <h2>2. Códigos de Infracciones y Sanciones</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Infracción</th>
+                    <th>Descripción</th>
+                    <th>Sanción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>RT-01</td>
+                    <td>Retardo en la entrega</td>
+                    <td>Llegar tarde a la entrega sin justificación válida.</td>
+                    <td>1ra vez: Amonestación verbal. 2da vez: Multa del 10% del pago del viaje.</td>
+                </tr>
+                <tr>
+                    <td>RT-02</td>
+                    <td>Retardo en la salida</td>
+                    <td>No presentarse a tiempo para la salida programada.</td>
+                    <td>1ra vez: Amonestación escrita. 2da vez: Suspensión por 1 día sin pago.</td>
+                </tr>
+                <tr>
+                    <td>PA-01</td>
+                    <td>Parada no autorizada</td>
+                    <td>Realizar paradas no autorizadas durante el trayecto.</td>
+                    <td>1ra vez: Amonestación escrita. 2da vez: Multa del 5% del pago del viaje.</td>
+                </tr>
+                <tr>
+                    <td>PA-02</td>
+                    <td>Exceso de tiempo en paradas autorizadas</td>
+                    <td>Superar el tiempo permitido en paradas autorizadas.</td>
+                    <td>1ra vez: Advertencia. 2da vez: Multa del 3% del pago del viaje.</td>
+                </tr>
+                <tr>
+                    <td>SV-01</td>
+                    <td>Exceso de velocidad</td>
+                    <td>Superar los límites de velocidad establecidos.</td>
+                    <td>1ra vez: Amonestación escrita. 2da vez: Suspensión por 2 días sin pago.</td>
+                </tr>
+                <tr>
+                    <td>SV-02</td>
+                    <td>Uso indebido del vehículo</td>
+                    <td>Utilizar el vehículo para fines no autorizados.</td>
+                    <td>1ra vez: Suspensión por 3 días sin pago. 2da vez: Terminación del contrato.</td>
+                </tr>
+                <tr>
+                    <td>MT-01</td>
+                    <td>Falta de mantenimiento reportado</td>
+                    <td>No reportar fallas o necesidades de mantenimiento del vehículo.</td>
+                    <td>1ra vez: Amonestación escrita. 2da vez: Multa del 5% del pago del viaje.</td>
+                </tr>
+                <tr>
+                    <td>SE-01</td>
+                    <td>Incumplimiento de normas de seguridad</td>
+                    <td>No seguir los protocolos de seguridad (ej.: no usar cinturón, exceso de peso).</td>
+                    <td>1ra vez: Amonestación escrita. 2da vez: Suspensión por 1 día sin pago.</td>
+                </tr>
+                <tr>
+                    <td>DO-01</td>
+                    <td>Documentación incompleta o vencida</td>
+                    <td>Conducir con documentación incompleta o fuera de vigencia.</td>
+                    <td>1ra vez: Amonestación escrita. 2da vez: Suspensión hasta regularizar.</td>
+                </tr>
+            </tbody>
+        </table>
+    
+
+        <hr>
+
+        <h2>3. Procedimiento de Aplicación de Sanciones</h2>
+        <ol>
+            <li><strong>Reporte de Incidencia</strong>: La dirección de flota debe documentar la infracción con fecha, hora y detalles.</li>
+            <li><strong>Notificación al Operador</strong>: El operador será notificado de la infracción y la sanción correspondiente. Así como un enlace a la documentación de los detalles.</li>
+            <li><strong>Derecho a Réplica</strong>: El operador puede presentar su defensa o justificación dentro de las 48 horas posteriores a la notificación.</li>
+            <li><strong>Aplicación de la Sanción</strong>: Si no hay justificación válida, se aplicará la sanción correspondiente.</li>
+        </ol>
+
+        <hr>
+
+        <h2>4. Sanciones Graduales</h2>
+        <ul>
+            <li><strong>Primera Infracción</strong>: Amonestación verbal o escrita, según la gravedad.</li>
+            <li><strong>Segunda Infracción</strong>: Multa o suspensión temporal.</li>
+            <li><strong>Tercera Infracción</strong>: Suspensión prolongada o terminación del contrato.</li>
+        </ul>
+
+        <hr>
+
+        <h2>5. Consideraciones Especiales</h2>
+        <ul>
+            <li>Las sanciones pueden variar según la gravedad de la infracción y el historial del operador.</li>
+            <li>En caso de accidentes o daños al vehículo por negligencia, el operador podrá ser responsable de los costos de reparación.</li>
+        </ul>
+
+        <hr>
+
+        <h2>6. Compromisos del Operador</h2>
+        <ul>
+            <li>Cumplir con los horarios y rutas establecidas.</li>
+            <li>Reportar cualquier incidente o falla técnica de inmediato.</li>
+            <li>Mantener el vehículo en óptimas condiciones de limpieza y funcionamiento.</li>
+            <li>Respetar las normas de tránsito y seguridad vial.</li>
+        </ul>
+
+        <section class="firma-container">
+            <h3>Firma del Operador</h3>
+            <div class="firma-content">
+                <div class="firma-canvas">
+                    <canvas id="firmaCanvas"></canvas>
+                </div>
+                <button class="firma-limpiar">Limpiar Firma</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        (function() {
+            const canvas = document.getElementById('firmaCanvas');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            function resizeCanvas() {
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = getPosition(e);
             }
 
-            const informes = await response.json();
-            const informesList = document.getElementById('informesList');
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                [lastX, lastY] = getPosition(e);
+                ctx.lineTo(lastX, lastY);
+                ctx.strokeStyle = "var(--rojo-primario)";
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+            }
 
-            // Mostrar los informes en la lista
-            informes.forEach(informe => {
-                const li = document.createElement('li');
-                const link = document.createElement('a');
-                link.href = `informes/${informe}`; // Enlace al archivo del informe
-                link.textContent = informe.replace('.html', ''); // Mostrar nombre sin extensión
-                link.target = "_blank"; // Abrir en una nueva pestaña
-                li.appendChild(link);
-                informesList.appendChild(li);
+            function getPosition(e) {
+                if (e.touches) {
+                    const rect = canvas.getBoundingClientRect();
+                    return [
+                        e.touches[0].clientX - rect.left,
+                        e.touches[0].clientY - rect.top
+                    ];
+                }
+                return [e.offsetX, e.offsetY];
+            }
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+            canvas.addEventListener('mouseout', () => isDrawing = false);
+
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startDrawing(e.touches[0]);
             });
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Hubo un error al cargar los informes');
-        }
-    }
-</script>
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                draw(e.touches[0]);
+            });
+            canvas.addEventListener('touchend', () => isDrawing = false);
 
+            document.querySelector('.firma-limpiar').addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+        })();
+    </script>
 </body>
 </html>
